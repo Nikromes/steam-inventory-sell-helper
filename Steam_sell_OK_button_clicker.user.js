@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam OK button clicker
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  try to take over the world!
 // @author       Nikromes
 // @match        https://steamcommunity.com/**/**/inventory/
@@ -16,10 +16,26 @@
     const buttonsBox = document.getElementById('market_sell_dialog_confirm_buttons');
     const okButton = document.getElementById('market_sell_dialog_ok');
     const throbber = document.getElementById('market_sell_dialog_throbber');
+
+    const retryButton = document.querySelector('.retry_load_btn');
+
     setInterval(() => {
-        if (marketSellDialog.style.display !== 'none' && buttonsBox.style.overflow === 'visible' && buttonsBox.style.display !== 'none' && throbber.style.display === 'none') {
+        const isRetryVisible = typeof document.querySelector('#inventory_load_error_ctn > div:not([style])') === 'object';
+
+        const isOkVisible =
+            marketSellDialog.style.display !== 'none' &&
+            buttonsBox.style.overflow === 'visible' &&
+            buttonsBox.style.display !== 'none' &&
+            throbber.style.display === 'none';
+
+        if (isOkVisible) {
             console.log('OK button visible, clicking...');
             okButton.click();
+        }
+
+        if (isRetryVisible) {
+            console.log('Retry button visible, clicking...');
+            retryButton.click();
         }
     }, 300);
 })();
