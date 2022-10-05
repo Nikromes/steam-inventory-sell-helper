@@ -17,17 +17,21 @@
     const okButton = document.getElementById('market_sell_dialog_ok');
     const throbber = document.getElementById('market_sell_dialog_throbber');
 
-    setInterval(() => {
-        if (marketSellDialog.style.display !== 'none' && buttonsBox.style.overflow === 'visible' && buttonsBox.style.display !== 'none' && throbber.style.display === 'none') {
-            console.log('OK button visible, clicking...');
-            okButton.click();
-        }
-    }, 300);
-
     const retryButton = document.querySelector('.retry_load_btn');
 
     setInterval(() => {
         const isRetryVisible = typeof document.querySelector('#inventory_load_error_ctn > div:not([style])') === 'object';
+
+        const inOkVisible =
+            marketSellDialog.style.display !== 'none' &&
+            buttonsBox.style.overflow === 'visible' &&
+            buttonsBox.style.display !== 'none' &&
+            throbber.style.display === 'none';
+
+        if (inOkVisible) {
+            console.log('OK button visible, clicking...');
+            okButton.click();
+        }
 
         if (isRetryVisible) {
             console.log('Retry button visible, clicking...');
