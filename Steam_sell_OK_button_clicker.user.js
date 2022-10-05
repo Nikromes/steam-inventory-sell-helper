@@ -22,7 +22,7 @@
     setInterval(() => {
         const isRetryVisible = typeof document.querySelector('#inventory_load_error_ctn > div:not([style])') === 'object';
 
-        const inOkVisible =
+        const isOkVisible =
             marketSellDialog.style.display !== 'none' &&
             buttonsBox.style.overflow === 'visible' &&
             buttonsBox.style.display !== 'none' &&
