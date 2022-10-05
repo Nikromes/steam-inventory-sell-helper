@@ -28,7 +28,7 @@
             buttonsBox.style.display !== 'none' &&
             throbber.style.display === 'none';
 
-        if (inOkVisible) {
+        if (isOkVisible) {
             console.log('OK button visible, clicking...');
             okButton.click();
         }
