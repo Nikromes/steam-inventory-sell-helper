@@ -1,13 +1,16 @@
 // ==UserScript==
 // @name         Steam OK button clicker
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  try to take over the world!
 // @author       Nikromes
 // @match        https://steamcommunity.com/**/**/inventory/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
+
+const alreadySoldMessage = 'The item specified is no longer in your inventory or is not allowed to be traded on the Community Market.';
+const pendingComformationMessage = 'You already have a listing for this item pending confirmation. Please confirm or cancel the existing listing.';
 
 (function() {
     'use strict';
@@ -18,21 +21,36 @@
     const throbber = document.getElementById('market_sell_dialog_throbber');
 
     setInterval(() => {
+        const messageElement = document.querySelector('#market_sell_dialog_error');
+        const deleteFromQueueButton = document.querySelector('.queue-item-container:nth-child(2) .queue-item-remove');
+        const acceptCheckbox = document.querySelector('#market_sell_dialog_accept_ssa');
+
         const isOkVisible =
             marketSellDialog.style.display !== 'none' &&
             buttonsBox.style.overflow === 'visible' &&
             buttonsBox.style.display !== 'none' &&
             throbber.style.display === 'none';
 
+        if (acceptCheckbox != null && !acceptCheckbox.checked) {
+            acceptCheckbox.checked = true;
+        }
+
         if (isOkVisible) {
-            console.log('OK button visible, clicking...');
-            okButton.click();
+            if (messageElement.innerText !== alreadySoldMessage && messageElement.innerText !== pendingComformationMessage) {
+                console.log('OK button visible, clicking...');
+                okButton.click();
+
+            } else if (deleteFromQueueButton != null) {
+                console.log('Item already sold, removing from queue...');
+                deleteFromQueueButton.click();
+                okButton.click();
+            }
         }
     }, 300);
 
     setInterval(() => {
         const retryButton = document.querySelector('.retry_load_btn');
-        const isRetryVisible = typeof document.querySelector('#inventory_load_error_ctn > div:not([style])') === 'object';
+        const isRetryVisible = document.querySelector('#inventory_load_error_ctn > div:not([style="display: none;"])') != null;
 
         if (isRetryVisible) {
             console.log('Retry button visible, clicking...');
