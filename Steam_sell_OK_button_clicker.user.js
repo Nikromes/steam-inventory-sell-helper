@@ -22,7 +22,7 @@ const pendingComformationMessage = 'You already have a listing for this item pen
 
     setInterval(() => {
         const messageElement = document.querySelector('#market_sell_dialog_error');
-        const deleteFromQueueButton = document.querySelector('.queue-item-container:nth-child(2) .queue-item-remove');
+        const deleteFromQueueButton = document.querySelectorAll('.queue-item-container:not([style="display: none;"]) .queue-item-remove')?.[0];
         const acceptCheckbox = document.querySelector('#market_sell_dialog_accept_ssa');
 
         const isOkVisible =
