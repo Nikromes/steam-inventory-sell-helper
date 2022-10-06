@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam OK button clicker
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  try to take over the world!
 // @author       Nikromes
 // @match        https://steamcommunity.com/**/**/inventory/
